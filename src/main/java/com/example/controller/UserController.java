@@ -1,6 +1,6 @@
 package com.example.controller;
 
-import com.example.entity.User;
+import com.example.dto.UserDto;
 import com.example.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,26 +18,25 @@ public class UserController {
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
         return new ResponseEntity<>(this.userService.getUserById(id), HttpStatus.FOUND);
     }
 
 
     @GetMapping
-    public ResponseEntity<List<User>> getUsers() {
+    public ResponseEntity<List<UserDto>> getUsers() {
         return new ResponseEntity<>(this.userService.getAll(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<User> getStudents(@RequestBody User user) {
+    public ResponseEntity<UserDto> getStudents(@RequestBody UserDto user) {
         return new ResponseEntity<>(this.userService.createUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id , @RequestBody User user){
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id , @RequestBody UserDto user){
         return  new ResponseEntity<>(this.userService.updateUser(user) , HttpStatus.OK);
     }
-
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId){
         this.userService.deleteUser(userId);
