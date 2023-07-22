@@ -1,11 +1,17 @@
 package com.example.controller;
 
 import com.example.dto.UserDto;
+import com.example.exception.ErrorDetails;
+import com.example.exception.ResourceNotFoundException;
 import com.example.service.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.swing.text.html.HTML;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -29,17 +35,22 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserDto> getStudents(@RequestBody UserDto user) {
+    public ResponseEntity<UserDto> createUser(@Valid @RequestBody UserDto user) {
+        System.out.println("user => " + user);
         return new ResponseEntity<>(this.userService.createUser(user), HttpStatus.CREATED);
     }
 
     @PutMapping("{id}")
-    public ResponseEntity<UserDto> updateUser(@PathVariable Long id , @RequestBody UserDto user){
-        return  new ResponseEntity<>(this.userService.updateUser(user) , HttpStatus.OK);
+    public ResponseEntity<UserDto> updateUser(@Valid @PathVariable Long id, @RequestBody UserDto user) {
+        System.out.println("user => " + user);
+        return new ResponseEntity<>(this.userService.updateUser(user), HttpStatus.OK);
     }
+
     @DeleteMapping("{id}")
-    public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId){
+    public ResponseEntity<String> deleteUser(@PathVariable("id") Long userId) {
         this.userService.deleteUser(userId);
-        return new ResponseEntity<>("Deleted Successfully " , HttpStatus.OK);
+        return new ResponseEntity<>("Deleted Successfully ", HttpStatus.OK);
     }
+
+
 }

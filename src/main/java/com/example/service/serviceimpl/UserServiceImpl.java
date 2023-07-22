@@ -2,7 +2,7 @@ package com.example.service.serviceimpl;
 
 import com.example.dto.UserDto;
 import com.example.entity.User;
-import com.example.mapper.UserMapper;
+import com.example.exception.ResourceNotFoundException;
 import com.example.repository.UserRepository;
 import com.example.service.UserService;
 import org.modelmapper.ModelMapper;
@@ -40,14 +40,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDto getUserById(Long id) {
-        User foundUser = this.userRepository.findById(id).orElse(null);
+        User foundUser = this.userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User", "id", id));
         return this.getUserDto(foundUser);
     }
 
     @Override
     public UserDto updateUser(UserDto user) {
 
-        User oldUser = this.userRepository.findById(user.getId()).orElse(null);
+        User oldUser = this.userRepository.findById(user.getId()).orElseThrow(() -> new ResourceNotFoundException("User", "id", user.getId()));
         oldUser.setId(oldUser.getId());
         oldUser.setFirstName(user.getFirstName());
         oldUser.setLastName(user.getLastName());
@@ -58,7 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(Long userId) {
-        this.userRepository.delete(this.userRepository.findById(userId).get());
+        this.userRepository.delete(this.userRepository.findById(userId).orElseThrow(() -> new ResourceNotFoundException("User", "id", userId) ));
     }
 
     private UserDto getUserDto(User t) {

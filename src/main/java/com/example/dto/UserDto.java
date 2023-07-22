@@ -1,11 +1,22 @@
 package com.example.dto;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotEmpty;
+
 public class UserDto {
-    private Long id ;
+    private Long id;
+    //firstName should not be empty or null
+    @NotEmpty(message =  "Yo can't be empty or null")
     private String firstName;
+    //lastName should not be empty or null
+    @NotEmpty(message =  "Yo can't be empty or null")
     private String lastName;
+    @NotEmpty(message =  "Yo can't be empty or null!")
+    @Email(message = "Yo enter valid format!")
     private String email;
-    public UserDto(){}
+
+    public UserDto() {
+    }
 
     public UserDto(Long id, String firstName, String lastName, String email) {
         this.id = id;
@@ -44,5 +55,15 @@ public class UserDto {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    @Override
+    public String toString() {
+        return "{\"UserDto\":{"
+                + "\"id\":\"" + id + "\""
+                + ", \"firstName\":\"" + firstName + "\""
+                + ", \"lastName\":\"" + lastName + "\""
+                + ", \"email\":\"" + email + "\""
+                + "}}";
     }
 }
